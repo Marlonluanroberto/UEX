@@ -1,0 +1,118 @@
+﻿@page
+@model CadastroModel
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<div class="container body-content row">
+
+    <div id="map" class="col"></div>
+
+    <article class="col">
+
+        <label class="editor-label">Nome</label>
+        <input type="text" id="Nome" name="Nome" class="form-control" placeholder="Nome" />
+
+        <label class="editor-label">CPF</label>
+        <input type="text" id="CPF" name="CPF" class="form-control" placeholder="CPF" />
+
+
+        <div class="editor-field">
+            <label class="editor-label">Telefone</label>
+            <input type="text" id="telefone" name="telefone" class="form-control" placeholder="telefone" />
+        </div>
+
+        <label class="editor-label">Rua</label>
+        <input type="text" id="Endereco" name="Endereco" class="form-control" placeholder="Endereco" onchange="carregarRuasSelecionadas();" />
+
+        <label class="editor-label">Ruas encontradas</label>
+        <select id="select_ruas" class="operator form-control" onchange="selecionarRua();">
+            <option value="">-- Selecione --</option>
+        </select>
+
+        <label class="editor-label">Numero</label>
+        <input type="text" id="Numero" name="Numero" class="form-control" placeholder="Numero" />
+
+        <label class="editor-label">UF</label>
+
+        <select id="select_estado" class="operator form-control" onchange="carregarCidade();">
+            <option value="">-- Selecione --</option>
+        </select>
+
+        <label class="editor-label">Cidade</label>
+        <select id="select_cidade" class="operator form-control" onchange="buscarCepPorRua();">
+            <option value="">-- Selecione --</option>
+        </select>
+        <div class="col">
+
+            <label class="editor-label">Bairros</label>
+            <input type="text" id="bairro" name="bairro" class="form-control" placeholder="Bairro" />
+
+            <label class="editor-label">CEP</label>
+            <input type="text" id="CEP" name="CEP" class="form-control" placeholder="cep" />
+
+        </div>
+        <button type="button" class="btn btn-warning" onclick="cadastrarUsuario();">CADASTRAR</button>
+
+    </article>
+
+
+    <table id="example" class="display nowrap" width="100%">
+    </table>
+    <script>
+                
+    $(document).ready(function(){
+    
+        var usuarioLogado =  localStorage.getItem("login");
+        
+        if(usuarioLogado != ''){
+
+            $("#select_estado").select2();
+            $("#select_cidade").select2();
+            
+            carregarSelectEstado();
+            carregarListaContato();
+
+            $("#telefone")
+            .mask('(99) 9999-9999?9')
+            .focusout(function (event) {
+                
+                var target, phone, element;
+                target = (event.currentTarget) ? event.currentTarget : event.srcElement;                
+                phone = target.value.replace(/\D/g, '');              
+                element = $(target);                
+                element.unmask();
+                
+                if (phone.length > 10)
+                    element.mask('(99) 99999-999?9');
+                 else                
+                    element.mask('(99) 9999-9999?9');
+                 
+                });
+
+                    $("#CEP").mask("99.999-999");
+                    $("#CPF").mask("999.999.999-99");
+                }
+                else{
+                    alert("Voce precisa estar logado para acessar essa area");
+                    window.location.href = 'Index';
+        }});
+
+    </script>
+</div>
+
+
+<script>
+
+    let map;
+    function initMap() {
+        var center = new google.maps.LatLng(-24.540386, -51.598826);
+        
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,  position: center ,
+            mapTypeId: 'roadmap'
+        });
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXgJ1SBZYw16qtW0zpVSdnRF6Q1NXHH0E&callback=initMap"></script>

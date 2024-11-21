@@ -1,0 +1,68 @@
+﻿@page 
+@{
+    ViewData["Title"] = "Home page";
+}
+<!-- Row -->
+<div class="auth-form  ml-auto mr-auto no-float">
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <div class="mb-30">
+                <h3 class="text-center txt-dark mb-10">LOGIN - Sistema</h3>
+                <h6 class="text-center nonecase-font txt-grey">Digite os seus dados de acesso</h6>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="control-label col-md-2">EMAIL</label>
+                    <input type="text" id="txtEmail" value="Email" placeholder="Email" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">EMAIL</label>
+                <input type="text" id="txtSenha" value="Senha" placeholder="Senha" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" onclick="realizarLogin()" value="Entrar" class="btn btn-warning btn-rounded form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+
+                    var usuarioLogado =  localStorage.getItem("login");
+        if(usuarioLogado != ''){
+
+
+                    $("#select_estado").select2();
+                    $("#select_cidade").select2();
+
+                    carregarSelectEstado();
+                    carregarListaContato();
+
+                    $("#telefone")
+                        .mask('(99) 9999-9999?9')
+                        .focusout(function (event) {
+                            var target, phone, element;
+                            target = (event.currentTarget) ? event.currentTarget : event.srcElement;
+                            phone = target.value.replace(/\D/g, '');
+                            element = $(target);
+                            element.unmask();
+                            if (phone.length > 10) {
+                                element.mask('(99) 99999-999?9');
+                            } else {
+                                element.mask('(99) 9999-9999?9');
+                            }
+                    });
+
+                    $("#CEP").mask("99.999-999");
+                    $("#CPF").mask("999.999.999-99");
+
+                } });
+</script>
+ 
